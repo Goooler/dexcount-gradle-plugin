@@ -16,7 +16,7 @@ class IntegrationSpec extends Specification {
         def project = projectDir(agpVersion, gradleVersion)
 
         when:
-        def result = GradleRunner.create()
+        def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
             .withArguments(":app:countDebugDexMethods", "--stacktrace")
@@ -48,7 +48,7 @@ class IntegrationSpec extends Specification {
         def project = projectDir(agpVersion, gradleVersion)
 
         when:
-        def result = GradleRunner.create()
+        def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
             .withArguments(":lib:countDebugDexMethods", "--stacktrace")
@@ -80,7 +80,7 @@ class IntegrationSpec extends Specification {
         def project = projectDir(agpVersion, gradleVersion)
 
         when:
-        def result = GradleRunner.create()
+        def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
             .withArguments(":tests:countDebugDexMethods", "--stacktrace")
@@ -112,7 +112,7 @@ class IntegrationSpec extends Specification {
         def project = projectDir(agpVersion, gradleVersion)
 
         when:
-        def result = GradleRunner.create()
+        def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
             .withArguments(":app:countDebugBundleDexMethods", "--stacktrace")
@@ -163,5 +163,9 @@ class IntegrationSpec extends Specification {
         }
 
         return projectDir
+    }
+
+    private GradleRunner getGradleRunner() {
+        return GradleRunner.create()
     }
 }
