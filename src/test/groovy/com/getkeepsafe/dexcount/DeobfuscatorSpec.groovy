@@ -16,9 +16,7 @@
 
 package com.getkeepsafe.dexcount
 
-import spock.lang.Specification
-
-final class DeobfuscatorSpec extends Specification {
+final class DeobfuscatorSpec extends BaseSpecification {
     def "when no mapping file exists, returns given classnames unaltered"() {
         given:
         def deobs = Deobfuscator.create(null)

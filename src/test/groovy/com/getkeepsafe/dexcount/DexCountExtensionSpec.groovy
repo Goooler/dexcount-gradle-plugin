@@ -30,12 +30,9 @@ import spock.lang.Specification
 import spock.lang.TempDir
 
 @Ignore
-final class DexCountExtensionSpec extends Specification {
+final class DexCountExtensionSpec extends BaseSpecification {
     private Project project
     private File apkFile
-
-    @TempDir
-    private File tempDir
 
     private BuiltArtifact apkArtifact
     private BuiltArtifacts builtArtifacts

@@ -16,9 +16,9 @@
 
 package com.getkeepsafe.dexcount.source
 
-import spock.lang.Specification
+import com.getkeepsafe.dexcount.BaseSpecification
 
-final class JarFileSpec extends Specification {
+final class JarFileSpec extends BaseSpecification {
     def "test AAR method count"() {
         given:
         def aarFile = File.createTempFile("test", ".aar")

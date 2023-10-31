@@ -16,13 +16,9 @@
 
 package com.getkeepsafe.dexcount.source
 
-import spock.lang.Specification
-import spock.lang.TempDir
+import com.getkeepsafe.dexcount.BaseSpecification
 
-final class DexFileSpec extends Specification {
-    @TempDir
-    File tempDir
-
+final class DexFileSpec extends BaseSpecification {
     def "test AAR dexcount"() {
         given:
         def aarFile = new File(tempDir, "test.aar")

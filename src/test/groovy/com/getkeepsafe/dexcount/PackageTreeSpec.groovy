@@ -16,12 +16,10 @@
 
 package com.getkeepsafe.dexcount
 
-import spock.lang.Specification
-
 import static com.getkeepsafe.dexcount.RefHelpers.fieldRef
 import static com.getkeepsafe.dexcount.RefHelpers.methodRef
 
-final class PackageTreeSpec extends Specification {
+final class PackageTreeSpec extends BaseSpecification {
     def "adding different methods increments count"() {
         given:
         def tree = new PackageTree()

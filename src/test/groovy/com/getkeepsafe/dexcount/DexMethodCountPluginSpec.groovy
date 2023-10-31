@@ -5,20 +5,15 @@ import com.android.build.api.variant.BuiltArtifacts
 import com.android.build.api.variant.BuiltArtifactsLoader
 import com.getkeepsafe.dexcount.treegen.ApkPackageTreeTask
 import org.gradle.api.Project
-import org.gradle.api.internal.project.ProjectInternal
-import org.gradle.initialization.GradlePropertiesController
 import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.UnexpectedBuildResultException
 import spock.lang.Ignore
-import spock.lang.Specification
-import spock.lang.TempDir
 import spock.lang.Unroll
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 @Ignore
-final class DexMethodCountPluginSpec extends Specification {
+final class DexMethodCountPluginSpec extends BaseSpecification {
     private File buildFile
     private String reportFolder
     private Project project
@@ -26,14 +21,11 @@ final class DexMethodCountPluginSpec extends Specification {
     def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'
     def MANIFEST_FILE_TEXT = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"com.example\"/>"
 
-    @TempDir
-    private File testProjectDir
-
     def 'setup'() {
-        buildFile = new File(testProjectDir, 'build.gradle')
-        reportFolder = "${testProjectDir.absolutePath}/build/outputs/dexcount"
-        new File(new File(testProjectDir, 'src'), 'main').mkdirs()
-        new File(testProjectDir, MANIFEST_FILE_PATH) << MANIFEST_FILE_TEXT
+        buildFile = new File(tempDir, 'build.gradle')
+        reportFolder = "${tempDir.absolutePath}/build/outputs/dexcount"
+        new File(new File(tempDir, 'src'), 'main').mkdirs()
+        new File(tempDir, MANIFEST_FILE_PATH) << MANIFEST_FILE_TEXT
 
         // TODO remove old testing strategy
         project = ProjectBuilder.builder().build()
@@ -64,9 +56,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        GradleRunner.create()
-            .withProjectDir(testProjectDir)
-            .withPluginClasspath()
+        gradleRunner
             .build()
 
         then:
@@ -91,10 +81,8 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
-            .withArguments("countDeclaredMethods", "--stacktrace")
+        def result = gradleRunner
+            .withArguments("countDeclaredMethods")
             .build()
 
         then:
@@ -119,9 +107,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
+        def result = gradleRunner
             .withArguments("countDeclaredMethods")
             .build()
 
@@ -157,10 +143,8 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
-            .withArguments("${taskName}", "--full-stacktrace")
+        def result = gradleRunner
+            .withArguments("${taskName}")
             .build()
 
         then:
@@ -200,9 +184,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
+        def result = gradleRunner
             .withArguments("${taskName}")
             .build()
 
@@ -252,9 +234,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
+        def result = gradleRunner
             .withArguments("${taskName}")
             .build()
 
@@ -268,8 +248,8 @@ final class DexMethodCountPluginSpec extends Specification {
 
     @Unroll def '#taskName with apk report example'() {
         given:
-        new File(testProjectDir, "build/outputs/apk/$taskName".toString()).mkdirs()
-        def apkFile = new File(testProjectDir, "build/outputs/apk/${taskName}/tiniest-smallest-app.apk".toString())
+        new File(tempDir, "build/outputs/apk/$taskName".toString()).mkdirs()
+        def apkFile = new File(tempDir, "build/outputs/apk/${taskName}/tiniest-smallest-app.apk".toString())
         def apkResource = getClass().getResourceAsStream('/tiniest-smallest-app.apk')
         apkResource.withStream { input ->
             apkFile.append(input)
@@ -298,9 +278,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
+        def result = gradleRunner
             .withArguments("${taskName}")
             .build()
 
@@ -334,9 +312,7 @@ final class DexMethodCountPluginSpec extends Specification {
       """.stripIndent().trim()
 
         when:
-        def result = GradleRunner.create()
-            .withPluginClasspath()
-            .withProjectDir(testProjectDir)
+        def result = gradleRunner
             .withArguments('tasks')
             .build()
 
@@ -348,7 +324,7 @@ final class DexMethodCountPluginSpec extends Specification {
     // TODO migrate to new test strategy
     def 'android apk report example'() {
         given:
-        def apkFile = new File(testProjectDir, 'tiniest-smallest-app.apk')
+        def apkFile = new File(tempDir, 'tiniest-smallest-app.apk')
         def apkResource = getClass().getResourceAsStream('/tiniest-smallest-app.apk')
         apkResource.withStream { input ->
             apkFile.append(input)
