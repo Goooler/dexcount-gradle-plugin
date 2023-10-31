@@ -13,7 +13,7 @@ abstract class BaseSpecification extends Specification {
         return new TestGradleRunner()
             .withPluginClasspath()
             .withProjectDir(tempDir)
-            .withArguments('--stacktrace')
+            .withArguments('--configuration-cache', '--stacktrace')
     }
 
     class TestGradleRunner extends DefaultGradleRunner {

@@ -19,7 +19,7 @@ class IntegrationSpec extends Specification {
         def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":app:countDebugDexMethods", "--stacktrace")
+            .withArguments(":app:countDebugDexMethods", "--configuration-cache", "--stacktrace")
             .build()
 
         then:
@@ -51,7 +51,7 @@ class IntegrationSpec extends Specification {
         def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":lib:countDebugDexMethods", "--stacktrace")
+            .withArguments(":lib:countDebugDexMethods", "--configuration-cache", "--stacktrace")
             .build()
 
         then:
@@ -83,7 +83,7 @@ class IntegrationSpec extends Specification {
         def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":tests:countDebugDexMethods", "--stacktrace")
+            .withArguments(":tests:countDebugDexMethods", "--configuration-cache", "--stacktrace")
             .build()
 
         then:
@@ -115,7 +115,7 @@ class IntegrationSpec extends Specification {
         def result = gradleRunner
             .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":app:countDebugBundleDexMethods", "--stacktrace")
+            .withArguments(":app:countDebugBundleDexMethods", "--configuration-cache", "--stacktrace")
             .build()
 
         then:
