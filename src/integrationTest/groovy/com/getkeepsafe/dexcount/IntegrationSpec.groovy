@@ -1,13 +1,11 @@
 package com.getkeepsafe.dexcount
 
 import org.apache.commons.io.FileUtils
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 
-class IntegrationSpec extends Specification {
+class IntegrationSpec extends BaseSpecification {
     @Shared File integrationTestDir = new File(["src", "integrationTest", "projects", "integration"].join(File.separator))
 
     @Unroll
@@ -17,9 +15,8 @@ class IntegrationSpec extends Specification {
 
         when:
         def result = gradleRunner
-            .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":app:countDebugDexMethods", "--configuration-cache", "--stacktrace")
+            .withArguments(":app:countDebugDexMethods")
             .build()
 
         then:
@@ -49,9 +46,8 @@ class IntegrationSpec extends Specification {
 
         when:
         def result = gradleRunner
-            .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":lib:countDebugDexMethods", "--configuration-cache", "--stacktrace")
+            .withArguments(":lib:countDebugDexMethods")
             .build()
 
         then:
@@ -81,9 +77,8 @@ class IntegrationSpec extends Specification {
 
         when:
         def result = gradleRunner
-            .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":tests:countDebugDexMethods", "--configuration-cache", "--stacktrace")
+            .withArguments(":tests:countDebugDexMethods")
             .build()
 
         then:
@@ -113,9 +108,8 @@ class IntegrationSpec extends Specification {
 
         when:
         def result = gradleRunner
-            .withGradleVersion(gradleVersion)
             .withProjectDir(project)
-            .withArguments(":app:countDebugBundleDexMethods", "--configuration-cache", "--stacktrace")
+            .withArguments(":app:countDebugBundleDexMethods")
             .build()
 
         then:
@@ -163,9 +157,5 @@ class IntegrationSpec extends Specification {
         }
 
         return projectDir
-    }
-
-    private GradleRunner getGradleRunner() {
-        return GradleRunner.create()
     }
 }
